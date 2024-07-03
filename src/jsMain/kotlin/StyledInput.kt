@@ -15,7 +15,7 @@ external interface StyledInputAttrs {
     var appearance: StyledInputAppearance
     var borderRadius: Length
     var borderWidth: Length
-    var colorTheme: ColorTheme
+    var colorTheme: InputTheme
 }
 
 fun StyledInputAttrs.defaultStyledInputAttrs() {
@@ -71,9 +71,9 @@ fun PropertiesBuilder.styledInputCSS(attrs: StyledInputAttrs) {
         }
     }
     focus {
-        backgroundColor = attrs.colorTheme.activeBackgroundColor
-        borderColor = attrs.colorTheme.activeBorderColor
-        color = attrs.colorTheme.activeTextColor
+        backgroundColor = attrs.colorTheme.focusBackgroundColor
+        borderColor = attrs.colorTheme.focusBorderColor
+        color = attrs.colorTheme.focusTextColor
     }
     disabled {
         backgroundColor = attrs.colorTheme.disabledBackgroundColor

@@ -9,7 +9,7 @@ import web.html.HTMLTextAreaElement
 external interface StyledTextAreaAttrs {
     var borderRadius: Length
     var borderWidth: Length
-    var colorTheme: ColorTheme
+    var colorTheme: InputTheme
 }
 
 fun StyledTextAreaAttrs.defaultStyledTextAreaAttrs() {
@@ -44,7 +44,7 @@ fun PropertiesBuilder.styledTextAreaCSS(attrs: StyledTextAreaAttrs) {
     font = Globals.inherit
     margin = 0.px
     outline = None.none
-    padding = Padding(0.2.em, 0.6 * attrs.borderRadius)
+    padding = Padding(0.5 * attrs.borderRadius, 0.6 * attrs.borderRadius)
     resize = None.none
     textDecoration = None.none
     hover {
@@ -55,9 +55,9 @@ fun PropertiesBuilder.styledTextAreaCSS(attrs: StyledTextAreaAttrs) {
         }
     }
     focus {
-        backgroundColor = attrs.colorTheme.activeBackgroundColor
-        borderColor = attrs.colorTheme.activeBorderColor
-        color = attrs.colorTheme.activeTextColor
+        backgroundColor = attrs.colorTheme.focusBackgroundColor
+        borderColor = attrs.colorTheme.focusBorderColor
+        color = attrs.colorTheme.focusTextColor
     }
     disabled {
         backgroundColor = attrs.colorTheme.disabledBackgroundColor

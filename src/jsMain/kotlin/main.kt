@@ -9,11 +9,13 @@ private val App = FC<Props> {
     var disabled2 by useState(false)
     var disabled3 by useState(false)
     var language by useState("ru")
+    var checked1 by useState(false)
+    var checked2 by useState(false)
     div {
         styledButton {
             buttonBuilder = {
                 span {
-                    className = ClassName("fas fa-play")
+                    className = ClassName("fa-solid fa-play")
                 }
                 disabled = disabled1
                 onClick = {
@@ -44,12 +46,12 @@ private val App = FC<Props> {
         styledButton {
             colorTheme = LightGreenButtonTheme()
             cursor = Cursor.copy
-            borderRadius = 0.2
+            borderRadius = 0.5.em
             borderWidth = 1.px
             shadowed = true
             buttonBuilder = {
                 span {
-                    className = ClassName("fas fa-tablet")
+                    className = ClassName("fa-solid fa-tablet")
                 }
                 if (language == "en") +" Copy"
                 else +" Копировать"
@@ -78,11 +80,11 @@ private val App = FC<Props> {
                 }
             }
         }
-        dropdown {
+        styledDropdown {
             buttonBuilder = {
                 +"Menu"
             }
-            menuBuilder = {
+            contentBuilder = {
                 styledButton {
                     buttonBuilder = {
                         +"Menu button 1"
@@ -100,10 +102,10 @@ private val App = FC<Props> {
                     }
                 }
             }
-            menuStyles = {
-                backgroundColor = Color("white")
+            contentStyles = {
+                backgroundColor = NamedColor.white
                 borderRadius = 0.5.em
-                boxShadow = BoxShadow(0.px, 0.px, 0.5.em, Color("lightgrey"))
+                boxShadow = BoxShadow(0.px, 0.px, 0.5.em, NamedColor.lightgrey)
                 margin = 5.px
                 width = 200.px
                 zIndex = integer(10)
@@ -138,6 +140,42 @@ private val App = FC<Props> {
             }
         }
     }
+    div {
+        styledCheckBox {
+            colorTheme = LightBlueCheckBoxTheme()
+            checkBoxInputBuilder = {
+                disabled = disabled1
+                checked = checked1
+                onChange = {
+                    checked1 = !checked1
+                }
+            }
+            checkBoxLabelBuilder = {
+                +"Check box 1"
+            }
+            checkBoxFieldStyles = {
+                marginLeft = 10.px
+            }
+        }
+        styledCheckBox {
+            colorTheme = LightGreenCheckBoxTheme()
+            borderRadius = 20.pct
+            shadowed = true
+            checkBoxInputBuilder = {
+                disabled = disabled2
+                checked = checked2
+                onChange = {
+                    checked2 = !checked2
+                }
+            }
+            checkBoxLabelBuilder = {
+                +"Check box 2"
+            }
+            checkBoxFieldStyles = {
+                marginLeft = 10.px
+            }
+        }
+    }
 }
 
 fun main() {
@@ -146,7 +184,7 @@ fun main() {
             App()
         }
         rootStyles = {
-            font = Font(FontStyle.normal, 16.px, string("Open Sans"))
+            font = Font(FontStyle.normal, 20.px, string("Open Sans"))
         }
     }
 }

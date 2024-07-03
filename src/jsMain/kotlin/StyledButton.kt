@@ -7,15 +7,15 @@ import web.cssom.*
 import web.html.HTMLButtonElement
 
 external interface StyledButtonAttrs {
-    var borderRadius: Double
+    var borderRadius: Length
     var borderWidth: Length
-    var colorTheme: ColorTheme
+    var colorTheme: ButtonTheme
     var cursor: Cursor
     var shadowed: Boolean
 }
 
 fun StyledButtonAttrs.defaultStyledButtonAttrs() {
-    borderRadius = 0.5
+    borderRadius = 1.25.em
     borderWidth = 0.px
     colorTheme = TransparentButtonTheme()
     cursor = Cursor.default
@@ -41,7 +41,7 @@ fun StyledButtonProps.defaultStyledButtonProps() {
 fun PropertiesBuilder.styledButtonCSS(attrs: StyledButtonAttrs) {
     backgroundColor = attrs.colorTheme.primaryBackgroundColor
     border = Border(attrs.borderWidth, LineStyle.solid, attrs.colorTheme.primaryBorderColor)
-    borderRadius = attrs.borderRadius * 2.5.em
+    borderRadius = attrs.borderRadius
     boxShadow = None.none
     color = attrs.colorTheme.primaryTextColor
     display = Display.inlineBlock
@@ -56,7 +56,7 @@ fun PropertiesBuilder.styledButtonCSS(attrs: StyledButtonAttrs) {
             backgroundColor = attrs.colorTheme.hoverBackgroundColor
             borderColor = attrs.colorTheme.hoverBorderColor
             boxShadow = when (attrs.shadowed) {
-                true -> BoxShadow(0.px, 2.px, 0.3.em, Color("lightgrey"))
+                true -> BoxShadow(0.px, 2.px, 0.3.em, NamedColor.lightgrey)
                 false -> None.none
             }
             color = attrs.colorTheme.hoverTextColor
@@ -68,7 +68,7 @@ fun PropertiesBuilder.styledButtonCSS(attrs: StyledButtonAttrs) {
             backgroundColor = attrs.colorTheme.activeBackgroundColor
             borderColor = attrs.colorTheme.activeBorderColor
             boxShadow = when (attrs.shadowed) {
-                true -> BoxShadow(0.px, 2.px, 0.3.em, Color("lightgrey"))
+                true -> BoxShadow(0.px, 2.px, 0.3.em, NamedColor.lightgrey)
                 false -> None.none
             }
             color = attrs.colorTheme.activeTextColor

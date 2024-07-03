@@ -1,5 +1,6 @@
 import csstype.PropertiesBuilder
 import emotion.react.css
+import js.uri.encodeURIComponent
 import react.*
 import react.dom.html.ReactHTML.select
 import react.dom.html.SelectHTMLAttributes
@@ -35,12 +36,19 @@ fun PropertiesBuilder.styledSelectCSS(attrs: StyledSelectAttrs) {
     styledButtonCSS(attrs)
     appearance = None.none
     if (attrs.showArrow) {
-        backgroundImage =
-            url("\"data:image/svg+xml;utf8,<svg fill='${attrs.colorTheme.primaryTextColor}' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>\"")
+        backgroundImage = url(
+            "\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' " +
+                    "fill='${encodeURIComponent(attrs.colorTheme.primaryTextColor.toString())}' " +
+                    "viewBox='0 0 512 512'>" +
+                    "<!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->" +
+                    "<path d='M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z'/>" +
+                    "</svg>\""
+        )
         backgroundRepeat = BackgroundRepeat.noRepeat
-        backgroundPositionX = 100.pct - 5.px
-        backgroundPositionY = 50.pct - 1.px
-        paddingRight = 1.0.em + 12.px
+        backgroundSize = 0.75.em
+        backgroundPositionX = 100.pct - 0.75.em
+        backgroundPositionY = 50.pct - 0.05.em
+        paddingRight = 2.0.em
     }
 }
 
