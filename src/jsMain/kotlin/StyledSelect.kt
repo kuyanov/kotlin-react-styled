@@ -3,9 +3,7 @@ import emotion.react.css
 import js.uri.encodeURIComponent
 import react.*
 import react.dom.html.ReactHTML.select
-import react.dom.html.SelectHTMLAttributes
 import web.cssom.*
-import web.html.HTMLSelectElement
 
 external interface StyledSelectAttrs : StyledButtonAttrs {
     var showArrow: Boolean
@@ -16,15 +14,13 @@ fun StyledSelectAttrs.defaultStyledSelectAttrs() {
     showArrow = true
 }
 
-external interface StyledSelectPropsGeneric<SelectBuilderType, SelectStylesType> :
+external interface StyledSelectPropsGeneric<SelectBuilderType, StylesType> :
     StyledSelectAttrs, Props {
     var selectBuilder: SelectBuilderType
-    var selectStyles: SelectStylesType
+    var selectStyles: StylesType
 }
 
-typealias SelectBuilderType = SelectHTMLAttributes<HTMLSelectElement>.() -> Unit
-typealias SelectStylesType = PropertiesBuilder.() -> Unit
-typealias StyledSelectProps = StyledSelectPropsGeneric<SelectBuilderType, SelectStylesType>
+typealias StyledSelectProps = StyledSelectPropsGeneric<SelectBuilderType, StylesType>
 
 fun StyledSelectProps.defaultStyledSelectProps() {
     defaultStyledSelectAttrs()

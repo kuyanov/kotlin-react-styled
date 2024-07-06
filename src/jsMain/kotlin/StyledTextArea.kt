@@ -2,9 +2,7 @@ import csstype.PropertiesBuilder
 import emotion.react.css
 import react.*
 import react.dom.html.ReactHTML.textarea
-import react.dom.html.TextareaHTMLAttributes
 import web.cssom.*
-import web.html.HTMLTextAreaElement
 
 external interface StyledTextAreaAttrs {
     var borderRadius: Length
@@ -18,15 +16,13 @@ fun StyledTextAreaAttrs.defaultStyledTextAreaAttrs() {
     colorTheme = TransparentDefaultInputTheme()
 }
 
-external interface StyledTextAreaPropsGeneric<TextAreaBuilderType, TextAreaStylesType> :
+external interface StyledTextAreaPropsGeneric<TextAreaBuilderType, StylesType> :
     StyledTextAreaAttrs, Props {
     var textAreaBuilder: TextAreaBuilderType
-    var textAreaStyles: TextAreaStylesType
+    var textAreaStyles: StylesType
 }
 
-typealias TextAreaBuilderType = TextareaHTMLAttributes<HTMLTextAreaElement>.() -> Unit
-typealias TextAreaStylesType = PropertiesBuilder.() -> Unit
-typealias StyledTextAreaProps = StyledTextAreaPropsGeneric<TextAreaBuilderType, TextAreaStylesType>
+typealias StyledTextAreaProps = StyledTextAreaPropsGeneric<TextAreaBuilderType, StylesType>
 
 fun StyledTextAreaProps.defaultStyledTextAreaProps() {
     defaultStyledTextAreaAttrs()

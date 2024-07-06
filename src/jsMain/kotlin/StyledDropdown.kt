@@ -2,13 +2,11 @@ import csstype.PropertiesBuilder
 import emotion.react.css
 import js.uri.encodeURIComponent
 import react.*
-import react.dom.html.HTMLAttributes
 import react.dom.html.ReactHTML.button
 import react.dom.html.ReactHTML.div
 import web.cssom.*
 import web.dom.document
 import web.events.*
-import web.html.HTMLDivElement
 
 enum class StyledDropdownContentAlignment {
     TopLeft,
@@ -28,19 +26,17 @@ fun StyledDropdownAttrs.defaultDropdownAttrs() {
     showArrow = true
 }
 
-external interface StyledDropdownPropsGeneric<
-        ButtonBuilderType, ButtonStylesType, ContentBuilderType, ContentStylesType> :
-    StyledDropdownAttrs, Props {
+external interface StyledDropdownPropsGeneric<ButtonBuilderType, ContentBuilderType, StylesType>
+    : StyledDropdownAttrs, Props {
     var buttonBuilder: ButtonBuilderType
-    var buttonStyles: ButtonStylesType
+    var buttonStyles: StylesType
     var contentBuilder: ContentBuilderType
-    var contentStyles: ContentStylesType
+    var contentStyles: StylesType
+    var wrapperStyles: StylesType
 }
 
-typealias DropdownContentBuilderType = HTMLAttributes<HTMLDivElement>.() -> Unit
-typealias DropdownContentStylesType = PropertiesBuilder.() -> Unit
-typealias StyledDropdownProps = StyledDropdownPropsGeneric<
-        ButtonBuilderType, ButtonStylesType, DropdownContentBuilderType, DropdownContentStylesType>
+typealias StyledDropdownProps = StyledDropdownPropsGeneric<ButtonBuilderType, DivBuilderType,
+        StylesType>
 
 fun StyledDropdownProps.defaultStyledDropdownProps() {
     defaultDropdownAttrs()
@@ -48,6 +44,7 @@ fun StyledDropdownProps.defaultStyledDropdownProps() {
     buttonStyles = {}
     contentBuilder = {}
     contentStyles = {}
+    wrapperStyles = {}
 }
 
 fun PropertiesBuilder.styledDropdownButtonCSS(attrs: StyledDropdownAttrs, contentShown: Boolean) {
@@ -173,6 +170,7 @@ val StyledDropdown = FC<StyledDropdownProps> { props ->
         css {
             display = Display.inlineBlock
             position = Position.relative
+            props.wrapperStyles(this)
         }
     }
 }

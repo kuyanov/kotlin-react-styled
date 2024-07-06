@@ -1,3 +1,4 @@
+import emotion.react.css
 import react.*
 import react.dom.html.ReactHTML.div
 import react.dom.html.ReactHTML.option
@@ -111,6 +112,9 @@ private val App = FC<Props> {
                 zIndex = integer(10)
             }
         }
+        css {
+            padding = 10.px
+        }
     }
     div {
         styledInput {
@@ -122,9 +126,11 @@ private val App = FC<Props> {
                 disabled = disabled1
             }
             inputStyles = {
-                margin = 10.px
                 width = 300.px
             }
+        }
+        css {
+            padding = 10.px
         }
     }
     div {
@@ -135,45 +141,61 @@ private val App = FC<Props> {
                 disabled = disabled2
             }
             textAreaStyles = {
-                margin = 10.px
                 width = 300.px
             }
+        }
+        css {
+            padding = 10.px
         }
     }
     div {
         styledCheckBox {
             colorTheme = LightBlueCheckBoxTheme()
-            checkBoxInputBuilder = {
+            inputBuilder = {
                 disabled = disabled1
                 checked = checked1
                 onChange = {
                     checked1 = !checked1
                 }
             }
-            checkBoxLabelBuilder = {
+            labelBuilder = {
                 +"Check box 1"
-            }
-            checkBoxFieldStyles = {
-                marginLeft = 10.px
             }
         }
         styledCheckBox {
             colorTheme = LightGreenCheckBoxTheme()
             borderRadius = 20.pct
             shadowed = true
-            checkBoxInputBuilder = {
+            inputBuilder = {
                 disabled = disabled2
                 checked = checked2
                 onChange = {
                     checked2 = !checked2
                 }
             }
-            checkBoxLabelBuilder = {
+            labelBuilder = {
                 +"Check box 2"
             }
-            checkBoxFieldStyles = {
-                marginLeft = 10.px
+        }
+        css {
+            padding = 10.px
+        }
+    }
+    div {
+        styledFileButton {
+            colorTheme = LightBlueButtonTheme()
+            buttonBuilder = {
+                +"Choose file"
             }
+            labelStyles = {
+                maxWidth = 300.px
+            }
+            wrapperStyles = {
+                fontSize = 0.9.em
+            }
+        }
+        css {
+            padding = 10.px
         }
     }
 }

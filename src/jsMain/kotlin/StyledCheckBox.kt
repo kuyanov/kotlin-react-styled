@@ -1,8 +1,6 @@
 import csstype.PropertiesBuilder
 import emotion.react.css
 import react.*
-import react.dom.html.InputHTMLAttributes
-import react.dom.html.LabelHTMLAttributes
 import react.dom.html.ReactHTML.div
 import react.dom.html.ReactHTML.input
 import react.dom.html.ReactHTML.label
@@ -10,7 +8,6 @@ import react.dom.html.ReactHTML.span
 import web.cssom.*
 import web.dom.document
 import web.html.HTMLInputElement
-import web.html.HTMLLabelElement
 import web.html.InputType
 import kotlin.random.Random
 
@@ -18,6 +15,7 @@ external interface StyledCheckBoxAttrs {
     var colorTheme: CheckBoxTheme
     var borderRadius: Length
     var borderWidth: Length
+    var inputId: String
     var shadowed: Boolean
 }
 
@@ -25,30 +23,29 @@ fun StyledCheckBoxAttrs.defaultStyledCheckBoxAttrs() {
     colorTheme = TransparentCheckBoxTheme()
     borderRadius = 50.pct
     borderWidth = 1.px
+    inputId = Random.nextInt().toString()
     shadowed = false
 }
 
-external interface StyledCheckBoxPropsGeneric<CheckBoxFieldStylesType, CheckBoxInputBuilderType,
-        CheckBoxLabelBuilderType, CheckBoxLabelStylesType> : StyledCheckBoxAttrs, Props {
-    var checkBoxInputBuilder: CheckBoxInputBuilderType
-    var checkBoxFieldStyles: CheckBoxFieldStylesType
-    var checkBoxLabelBuilder: CheckBoxLabelBuilderType
-    var checkBoxLabelStyles: CheckBoxLabelStylesType
+external interface StyledCheckBoxPropsGeneric<InputBuilderType, LabelBuilderType, StylesType>
+    : StyledCheckBoxAttrs, Props {
+    var inputBuilder: InputBuilderType
+    var fieldStyles: StylesType
+    var labelBuilder: LabelBuilderType
+    var labelStyles: StylesType
+    var wrapperStyles: StylesType
 }
 
-typealias CheckBoxInputBuilderType = InputHTMLAttributes<HTMLInputElement>.() -> Unit
-typealias CheckBoxFieldStylesType = PropertiesBuilder.() -> Unit
-typealias CheckBoxLabelBuilderType = LabelHTMLAttributes<HTMLLabelElement>.() -> Unit
-typealias CheckBoxLabelStylesType = PropertiesBuilder.() -> Unit
-typealias StyledCheckBoxProps = StyledCheckBoxPropsGeneric<CheckBoxFieldStylesType,
-        CheckBoxInputBuilderType, CheckBoxLabelBuilderType, CheckBoxLabelStylesType>
+typealias StyledCheckBoxProps = StyledCheckBoxPropsGeneric<InputBuilderType, LabelBuilderType,
+        StylesType>
 
 fun StyledCheckBoxProps.defaultStyledCheckBoxProps() {
     defaultStyledCheckBoxAttrs()
-    checkBoxInputBuilder = {}
-    checkBoxFieldStyles = {}
-    checkBoxLabelBuilder = {}
-    checkBoxLabelStyles = {}
+    inputBuilder = {}
+    fieldStyles = {}
+    labelBuilder = {}
+    labelStyles = {}
+    wrapperStyles = {}
 }
 
 fun PropertiesBuilder.styledCheckBoxFieldCSS(
@@ -60,7 +57,7 @@ fun PropertiesBuilder.styledCheckBoxFieldCSS(
     flexShrink = number(0.0)
     height = 1.25.em
     width = 1.25.em
-    margin = Margin(Auto.auto, 5.px, Auto.auto, 0.px)
+    margin = Margin(Auto.auto, 0.25.em, Auto.auto, 0.em)
     userSelect = None.none
     if (!checked) {
         if (!disabled) {
@@ -106,24 +103,24 @@ fun PropertiesBuilder.styledCheckBoxFieldCSS(
 }
 
 val StyledCheckBox = FC<StyledCheckBoxProps> { props ->
-    val inputId = Random.nextInt().toString()
     var checked by useState(false)
     var disabled by useState(false)
     useEffect {
-        checked = document.getElementById(inputId).unsafeCast<HTMLInputElement>().checked
-        disabled = document.getElementById(inputId).unsafeCast<HTMLInputElement>().disabled
+        val element = document.getElementById(props.inputId).unsafeCast<HTMLInputElement>()
+        checked = element.checked
+        disabled = element.disabled
     }
     div {
         input {
-            id = inputId
+            id = props.inputId
             type = InputType.checkbox
-            props.checkBoxInputBuilder(this)
+            props.inputBuilder(this)
             css {
                 display = None.none
             }
         }
         label {
-            htmlFor = inputId
+            htmlFor = props.inputId
             span {
                 css(ClassName("fa-solid fa-check")) {
                     fontSize = 0.75.em
@@ -135,21 +132,22 @@ val StyledCheckBox = FC<StyledCheckBoxProps> { props ->
             }
             css {
                 styledCheckBoxFieldCSS(props, checked, disabled)
-                props.checkBoxFieldStyles(this)
+                props.fieldStyles(this)
             }
         }
         label {
-            htmlFor = inputId
-            props.checkBoxLabelBuilder(this)
+            htmlFor = props.inputId
+            props.labelBuilder(this)
             css {
                 userSelect = None.none
-                props.checkBoxLabelStyles(this)
+                props.labelStyles(this)
             }
         }
         css {
             alignItems = AlignItems.center
             display = Display.flex
             flexDirection = FlexDirection.row
+            props.wrapperStyles(this)
         }
     }
 }

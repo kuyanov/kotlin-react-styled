@@ -1,10 +1,8 @@
 import csstype.PropertiesBuilder
 import emotion.react.css
 import react.*
-import react.dom.html.InputHTMLAttributes
 import react.dom.html.ReactHTML.input
 import web.cssom.*
-import web.html.HTMLInputElement
 
 enum class StyledInputAppearance {
     Default,
@@ -25,15 +23,13 @@ fun StyledInputAttrs.defaultStyledInputAttrs() {
     colorTheme = TransparentDefaultInputTheme()
 }
 
-external interface StyledInputPropsGeneric<InputBuilderType, InputStylesType> :
+external interface StyledInputPropsGeneric<InputBuilderType, StylesType> :
     StyledInputAttrs, Props {
     var inputBuilder: InputBuilderType
-    var inputStyles: InputStylesType
+    var inputStyles: StylesType
 }
 
-typealias InputBuilderType = InputHTMLAttributes<HTMLInputElement>.() -> Unit
-typealias InputStylesType = PropertiesBuilder.() -> Unit
-typealias StyledInputProps = StyledInputPropsGeneric<InputBuilderType, InputStylesType>
+typealias StyledInputProps = StyledInputPropsGeneric<InputBuilderType, StylesType>
 
 fun StyledInputProps.defaultStyledInputProps() {
     defaultStyledInputAttrs()

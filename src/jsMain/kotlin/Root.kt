@@ -1,4 +1,3 @@
-import csstype.PropertiesBuilder
 import emotion.react.*
 import react.*
 import react.dom.client.createRoot
@@ -7,17 +6,14 @@ import react.dom.html.ReactHTML.html
 import web.cssom.*
 import web.dom.document
 
-external interface RootPropsGeneric<
-        RootBuilderType, RootStylesType, BodyStylesType, HtmlStylesType> : Props {
+external interface RootPropsGeneric<RootBuilderType, StylesType> : Props {
     var rootBuilder: RootBuilderType
-    var rootStyles: RootStylesType
-    var bodyStyles: BodyStylesType
-    var htmlStyles: HtmlStylesType
+    var rootStyles: StylesType
+    var bodyStyles: StylesType
+    var htmlStyles: StylesType
 }
 
-typealias RootBuilderType = ChildrenBuilder.() -> Unit
-typealias StylesType = PropertiesBuilder.() -> Unit
-typealias RootProps = RootPropsGeneric<RootBuilderType, StylesType, StylesType, StylesType>
+typealias RootProps = RootPropsGeneric<ChildrenBuilderType, StylesType>
 
 fun RootProps.defaultRootProps() {
     rootBuilder = {}

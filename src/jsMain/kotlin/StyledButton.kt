@@ -1,10 +1,8 @@
 import csstype.PropertiesBuilder
 import emotion.react.css
 import react.*
-import react.dom.html.ButtonHTMLAttributes
 import react.dom.html.ReactHTML.button
 import web.cssom.*
-import web.html.HTMLButtonElement
 
 external interface StyledButtonAttrs {
     var borderRadius: Length
@@ -22,15 +20,13 @@ fun StyledButtonAttrs.defaultStyledButtonAttrs() {
     shadowed = false
 }
 
-external interface StyledButtonPropsGeneric<ButtonBuilderType, ButtonStylesType> :
+external interface StyledButtonPropsGeneric<ButtonBuilderType, StylesType> :
     StyledButtonAttrs, Props {
     var buttonBuilder: ButtonBuilderType
-    var buttonStyles: ButtonStylesType
+    var buttonStyles: StylesType
 }
 
-typealias ButtonBuilderType = ButtonHTMLAttributes<HTMLButtonElement>.() -> Unit
-typealias ButtonStylesType = PropertiesBuilder.() -> Unit
-typealias StyledButtonProps = StyledButtonPropsGeneric<ButtonBuilderType, ButtonStylesType>
+typealias StyledButtonProps = StyledButtonPropsGeneric<ButtonBuilderType, StylesType>
 
 fun StyledButtonProps.defaultStyledButtonProps() {
     defaultStyledButtonAttrs()
